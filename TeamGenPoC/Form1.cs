@@ -37,11 +37,16 @@ namespace TeamGenPoC
         private void nameBtn_Click(object sender, EventArgs e)
         {
             this.addName(this.toAddName.Text.ToString());
+            toAddName.Clear();
+            toAddName.Focus();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.namesScrollable.Items.Clear();
+            this.namesScrollable.View = View.Details; //this ensures that the names on the listview stick to 1 column
+            this.namesScrollable.Columns[0].Width = this.namesScrollable.Width -4; //sets column width
+            this.namesScrollable.HeaderStyle = ColumnHeaderStyle.None; //takes away heading from top of list
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -97,8 +102,10 @@ namespace TeamGenPoC
         private void addName(string name)
         {
             //string name = toAddName.Text.ToString();
-            nameList.Add(name);
-            memberList.Text = memberList.Text + System.Environment.NewLine + name;
+            nameList.Add(name); //this is still here so it doesn't break other stuff
+            //memberList.Text = memberList.Text + System.Environment.NewLine + name;
+            ListViewItem item = new ListViewItem(name);
+            namesScrollable.Items.Add(item); //names now add to the list view under "names"; allows for scrolling
             numMem++;
         }
 
@@ -149,6 +156,31 @@ namespace TeamGenPoC
             {
                 this.generate(i);
             }
+        }
+
+        private void restartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("The program will now restart", "Restarting...");
+            Application.Restart();
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Enter names either through the program or through a text file" +
+                "\nTeam Size denotes how big your teams are" +
+                "\nNumber of Generations denotes how many different teams", "Help");
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("CSC 370 Team Generator Program" +
+                "\nTeam Chuck: Peter Kloda, Joshua Appel, Tyler Martinkus, James Zhan", "About");
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("The application will now exit...", "Exiting");
+            Application.Exit();
         }
     }
 
